@@ -5,6 +5,7 @@ def process_document(job_id: str):
     update_job_status(job_id, "RUNNING")
 
     # simulate processing time
+    
     time.sleep(3)
 
     # mock Challenge-2 knowledge object
