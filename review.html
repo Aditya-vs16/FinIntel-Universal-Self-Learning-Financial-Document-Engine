@@ -699,6 +699,42 @@
 
     </section>
   </main>
+<script>
+const jobId = localStorage.getItem("job_id");
+
+async function checkStatus() {
+    const res = await fetch(`http://127.0.0.1:8000/jobs/${jobId}`);
+    const data = await res.json();
+
+    console.log(data);
+
+    if (data.status === "DONE") {
+        loadResult();
+    } else {
+        setTimeout(checkStatus, 2000); // poll every 2 sec
+    }
+}
+
+checkStatus();
+</script>
+<script>
+async function loadResult() {
+    const res = await fetch(`http://127.0.0.1:8000/jobs/${jobId}/result`);
+    const result = await res.json();
+
+    console.log(result);
+
+    // Fill UI fields
+    document.getElementById("holder").innerText =
+        result.entities.account_holder || "Not found";
+
+    document.getElementById("accnum").innerText =
+        result.entities.account_number || "Not found";
+
+    document.getElementById("income").innerText =
+        result.entities.monthly_income || "Not found";
+}
+</script>
 
   <!-- Footer stats -->
   <footer class="footer-stats">
